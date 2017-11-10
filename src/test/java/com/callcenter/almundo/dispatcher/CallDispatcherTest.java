@@ -14,7 +14,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.assertj.core.api.Condition;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,7 +67,7 @@ public class CallDispatcherTest {
     @Test
     public void dispatchCall_dispatchTenCallsWithEmptyQueue_modifyCallWithDiferentsEmployee() throws InterruptedException {
         List<Call> calls = new ArrayList();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             Call call = new Call(i);
             calls.add(call);
             callDispatcher.dispatchCall(call);
@@ -85,7 +84,7 @@ public class CallDispatcherTest {
     @Test
     public void dispatchCall_dispatchElevenCallsWithEmptyQueue_modifyCallSetOneInStandBy() throws InterruptedException {
         List<Call> calls = new ArrayList();
-        for (int i = 0; i < 11; i++) {
+        for (int i = 1; i <= 11; i++) {
             Call call = new Call(i);
             calls.add(call);
             callDispatcher.dispatchCall(call);
