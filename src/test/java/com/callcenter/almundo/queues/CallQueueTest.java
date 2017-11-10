@@ -1,7 +1,6 @@
 package com.callcenter.almundo.queues;
 
 import com.callcenter.almundo.domain.Call;
-import java.util.concurrent.atomic.AtomicInteger;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Test;
 
@@ -34,7 +33,7 @@ public class CallQueueTest {
         Call newCall = callQueue.attend();
         assertThat(callQueue.getCallsInProgress().get()).isEqualTo(1);
         assertThat(newCall).isEqualTo(call);
-    }
+    }   
 
     @Test
     public void attend_withQueueWithElementsInStandBy_returnCallWithStandBy() throws InterruptedException {
