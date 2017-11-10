@@ -12,7 +12,8 @@ public class DispatchCallTask implements Runnable {
 
     private BlockingQueue<Employee> employees;
     private CallQueue callQueue;
-    private final static Logger logger = LoggerFactory.getLogger(CallQueue.class);
+    
+    private final static Logger logger = LoggerFactory.getLogger(DispatchCallTask.class);
 
     public DispatchCallTask(BlockingQueue<Employee> employees, CallQueue callQueue) {
         this.employees = employees;
