@@ -43,6 +43,7 @@ public class CallQueueTest {
         callQueue.add(call);
         Call otherCall = new Call(2L);
         callQueue.add(otherCall);
+        callQueue.attend();
         Call newCall = callQueue.attend();
         assertThat(newCall).isEqualToIgnoringGivenFields(otherCall, "standBy").hasFieldOrPropertyWithValue("standBy", true);
     }
