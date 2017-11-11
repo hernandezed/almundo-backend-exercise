@@ -23,10 +23,11 @@ public class DispatchToEmployeeConsumer {
     @JmsListener(destination = "call.queue", concurrency = "${com.callcenter.almundo.max.concurrent.calls}")
     public void dispatchToEmployee(Call call) throws InterruptedException {
         Employee employee = employees.poll();
-        inProcessCalls.addAndGet(1);
+        inProcessCalls.getAndIncrement();
         call.setDuration(ThreadLocalRandom.current().nextInt(0, 11));
         call.setEmployee(employee);
         Thread.sleep(TimeUnit.SECONDS.toMillis(call.getDuration()));
+        inProcessCalls.getAndDecrement();
     }
 
 }

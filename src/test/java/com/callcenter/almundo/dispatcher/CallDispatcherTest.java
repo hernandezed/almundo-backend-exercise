@@ -9,7 +9,6 @@ import javax.jms.Queue;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
@@ -18,10 +17,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @PrepareForTest(JmsMessagingTemplate.class)
 public class CallDispatcherTest extends CallCenterAbstractTest {
