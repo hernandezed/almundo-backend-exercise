@@ -1,84 +1,52 @@
 package com.callcenter.almundo.dispatcher;
 
-import com.callcenter.almundo.comparator.EmployeePriorityComparator;
+import com.callcenter.almundo.CallCenterAbstractTest;
 import com.callcenter.almundo.domain.Call;
-import com.callcenter.almundo.domain.Director;
-import com.callcenter.almundo.domain.Employee;
-import com.callcenter.almundo.domain.Operator;
-import com.callcenter.almundo.domain.Supervisor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.PriorityBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import javax.jms.Queue;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyMap;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 
-public class CallDispatcherTest {
+@PrepareForTest(JmsMessagingTemplate.class)
+public class CallDispatcherTest extends CallCenterAbstractTest {
 
-    private ExecutorService executorService;
+    @Autowired
+    @InjectMocks
     private CallDispatcher callDispatcher;
+
+    @MockBean
+    private JmsMessagingTemplate jmsMessagingTemplate;
+
+    @Autowired
+    private AtomicInteger inProcessCalls;
 
     @Before
     public void setUp() {
-        BlockingQueue<Employee> employees = new PriorityBlockingQueue(10, new EmployeePriorityComparator());
-        employees.add(new Operator("Maria"));
-        employees.add(new Operator("Martin"));
-        employees.add(new Operator("Luisa"));
-        employees.add(new Operator("Laureano"));
-        employees.add(new Operator("Carolina"));
-        employees.add(new Operator("Leonardo"));
-        employees.add(new Supervisor("Diego"));
-        employees.add(new Supervisor("Paola"));
-        employees.add(new Supervisor("Teo"));
-        employees.add(new Director("Ramon"));
-        executorService = Executors.newCachedThreadPool();
-        callDispatcher = new CallDispatcher(executorService, employees);
+        doNothing().when(jmsMessagingTemplate).convertAndSend(any(Queue.class), any(), anyMap());
     }
 
     @Test
     public void dispatchCall_dispatchOneCallWithEmptyQueue_modifyCall() {
         Call call = new Call(1l);
         callDispatcher.dispatchCall(call);
-        assertThat(call)
-                .hasNoNullFieldsOrProperties();
-        assertThat(call.getDuration()).isBetween(5, 10);
-    }
-
-    @Test
-    public void dispatchCall_dispatchTwoCallsWithEmptyQueue_modifyCallWithDiferentsEmployee() throws InterruptedException {
-        Call call = new Call(1l);
-        Call otherCall = new Call(2l);
-        callDispatcher.dispatchCall(call);
-        callDispatcher.dispatchCall(otherCall);
-
-        executorService.shutdown();
-        executorService.awaitTermination(2, TimeUnit.MINUTES);
-
-        assertThat(call)
-                .hasNoNullFieldsOrProperties();
-        assertThat(call.getEmployee()).isNotEqualTo(otherCall.getEmployee());
-        assertThat(call.getDuration()).isBetween(5, 10);
-    }
-
-    @Test
-    public void dispatchCall_dispatchTenCallsWithEmptyQueue_modifyCallWithDiferentsEmployee() throws InterruptedException {
-        List<Call> calls = new ArrayList();
-        for (int i = 1; i <= 10; i++) {
-            Call call = new Call(i);
-            calls.add(call);
-            callDispatcher.dispatchCall(call);
-        }
-        executorService.shutdown();
-        executorService.awaitTermination(20, TimeUnit.SECONDS);
-
-        assertThat(calls).extracting("employee")
-                .hasAtLeastOneElementOfType(Operator.class)
-                .hasAtLeastOneElementOfType(Supervisor.class)
-                .hasAtLeastOneElementOfType(Director.class);
+        assertThat(call).hasFieldOrPropertyWithValue("standBy", false);
+        verify(jmsMessagingTemplate, times(1)).convertAndSend(any(Queue.class), any(), anyMap());
     }
 
     @Test
@@ -88,10 +56,9 @@ public class CallDispatcherTest {
             Call call = new Call(i);
             calls.add(call);
             callDispatcher.dispatchCall(call);
+            inProcessCalls.addAndGet(1);
         }
-        executorService.shutdown();
-        executorService.awaitTermination(20, TimeUnit.SECONDS);
-
-        assertThat(calls).extracting("standBy").contains(true);
+        assertThat(calls).extracting("standBy").last().isEqualTo(true);
+        verify(jmsMessagingTemplate, times(11)).convertAndSend(any(Queue.class), any(), anyMap());
     }
 }
