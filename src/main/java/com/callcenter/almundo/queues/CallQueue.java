@@ -4,7 +4,6 @@ import com.callcenter.almundo.domain.Call;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +13,6 @@ public class CallQueue {
     private BlockingQueue<Call> callQueue;
     private AtomicInteger callsInProgress;
     private static final Logger logger = LoggerFactory.getLogger(CallQueue.class);
-    static ReentrantLock counterLock = new ReentrantLock(true);
 
     public CallQueue(int capacity) {
         maxCapacity = capacity;
@@ -33,8 +31,8 @@ public class CallQueue {
             }
             callQueue.add(call);
             notifyAll();
-            return call;
         }
+        return call;
     }
 
     public Call attend() throws InterruptedException {
@@ -42,14 +40,8 @@ public class CallQueue {
             while (callQueue.isEmpty()) {
                 wait();
             }
+        }
             return callQueue.poll();
-        }
-    }
-
-    public int callSize() throws InterruptedException {
-        synchronized (this) {
-            return callQueue.size();
-        }
     }
 
     public AtomicInteger getCallsInProgress() {
