@@ -19,7 +19,7 @@ public class CallDispatcher {
     private static final int MIN_DURATION = 5;
     private static final int MAX_DURATION = 10;
     private static final int MAX_CALL_PERMITED = 10;
-    private final static Logger logger = LoggerFactory.getLogger(CallDispatcher.class);
+    private static final Logger logger = LoggerFactory.getLogger(CallDispatcher.class);
     
     public CallDispatcher(ExecutorService executorService, BlockingQueue<Employee> employees) {
         this.executorService = executorService;
