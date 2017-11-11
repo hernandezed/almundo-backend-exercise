@@ -28,20 +28,11 @@ public abstract class Employee {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Employee other = (Employee) obj;
-        if (this.priority != other.priority) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return true;
+        return (this.priority == other.priority) && Objects.equals(this.name, other.name);
     }
 
 }
