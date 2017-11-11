@@ -5,7 +5,7 @@ import com.callcenter.almundo.domain.Employee;
 import com.callcenter.almundo.domain.Operator;
 import com.callcenter.almundo.domain.Supervisor;
 import java.util.Comparator;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
