@@ -1,7 +1,16 @@
 package com.callcenter.almundo.domain;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import java.util.Objects;
 
+@JsonTypeInfo(use = Id.NAME, property = "priority")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Operator.class, name = "0"),
+    @JsonSubTypes.Type(value = Supervisor.class, name = "1"),
+    @JsonSubTypes.Type(value = Director.class, name = "2")
+})
 public abstract class Employee {
 
     protected String name;

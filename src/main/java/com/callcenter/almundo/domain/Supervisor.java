@@ -7,4 +7,7 @@ public class Supervisor extends Employee {
         this.priority = 2;
     }
 
+    public Supervisor() {
+    }
+
 }

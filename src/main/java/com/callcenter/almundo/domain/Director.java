@@ -7,4 +7,7 @@ public class Director extends Employee {
         this.priority = 3;
     }
 
+    public Director() {
+    }
+
 }

@@ -2,6 +2,7 @@ package com.callcenter.almundo.consumer;
 
 import com.callcenter.almundo.domain.Call;
 import com.callcenter.almundo.domain.Employee;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -14,10 +15,12 @@ public class DispatchToEmployeeConsumer {
 
     private BlockingQueue<Employee> employees;
     private AtomicInteger inProcessCalls;
+    private List<Call> finalizeCalls;
 
-    public DispatchToEmployeeConsumer(BlockingQueue<Employee> employees, AtomicInteger inProcessCalls) {
+    public DispatchToEmployeeConsumer(BlockingQueue<Employee> employees, AtomicInteger inProcessCalls, List<Call> finalizeCalls) {
         this.employees = employees;
         this.inProcessCalls = inProcessCalls;
+        this.finalizeCalls = finalizeCalls;
     }
 
     @JmsListener(destination = "call.queue", concurrency = "${com.callcenter.almundo.max.concurrent.calls}")
@@ -27,7 +30,7 @@ public class DispatchToEmployeeConsumer {
         call.setDuration(ThreadLocalRandom.current().nextInt(0, 11));
         call.setEmployee(employee);
         Thread.sleep(TimeUnit.SECONDS.toMillis(call.getDuration()));
-        System.out.println("HOLAAAAAAA");
+        finalizeCalls.add(call);
         inProcessCalls.getAndDecrement();
     }
 

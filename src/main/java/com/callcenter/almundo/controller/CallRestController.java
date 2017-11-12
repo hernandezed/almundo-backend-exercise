@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class CallRestController {
 
     private final CallDispatcher dispatchCall;
+    private final List<Call> finalizeCalls;
 
-    public CallRestController(CallDispatcher dispatchCall) {
+    public CallRestController(CallDispatcher dispatchCall, List<Call> finalizeCalls) {
         this.dispatchCall = dispatchCall;
+        this.finalizeCalls = finalizeCalls;
     }
 
     @GetMapping
     public List<Call> getAll() {
-        return null;
+        return finalizeCalls;
     }
 
     @PostMapping

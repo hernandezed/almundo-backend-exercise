@@ -7,4 +7,7 @@ public class Operator extends Employee {
         this.priority = 1;
     }
 
+    public Operator() {
+    }
+
 }
