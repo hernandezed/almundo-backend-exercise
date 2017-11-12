@@ -1,11 +1,6 @@
 package com.callcenter.almundo.dispatcher;
 
 import com.callcenter.almundo.domain.Call;
-import com.callcenter.almundo.domain.Employee;
-import java.util.HashMap;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.jms.Queue;
 import org.slf4j.Logger;
@@ -41,7 +36,7 @@ public class CallDispatcher {
         if (inProcessCalls.get() >= maxConcurrentCalls) {
             call.setStandBy(true);
         } else {
-            inProcessCalls.getAndUpdate(n -> n + 1);
+            inProcessCalls.getAndUpdate(inProcessCalls -> inProcessCalls + 1);
         }
         jmsMessagingTemplate.convertAndSend(callQueue, call);
     }
