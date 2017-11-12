@@ -11,54 +11,37 @@ public class CallQueue {
 
     private int maxCapacity;
     private BlockingQueue<Call> callQueue;
-    private BlockingQueue<Call> standByQueue;
     private AtomicInteger callsInProgress;
     private static final Logger logger = LoggerFactory.getLogger(CallQueue.class);
 
     public CallQueue(int capacity) {
         maxCapacity = capacity;
-        callQueue = new LinkedBlockingQueue(maxCapacity);
-        standByQueue = new LinkedBlockingQueue();
+        callQueue = new LinkedBlockingQueue();
         callsInProgress = new AtomicInteger(0);
     }
 
     public Call add(Call call) {
         synchronized (this) {
             if (callsInProgress.get() == maxCapacity) {
+                logger.debug("Se agrega la llamada {} en la cola de espera", call.getId());
+                call.setStandBy(true);
+            } else {
                 logger.debug("Se agrega la llamada {} en la cola principal", call.getId());
-                callQueue.add(call);
+                callsInProgress = new AtomicInteger(callsInProgress.addAndGet(1));
             }
-            logger.debug("Se agrega la llamada {} en la cola de espera", call.getId());
-            standByQueue.add(call);
-            call.setStandBy(true);
+            callQueue.add(call);
             notifyAll();
-            return call;
         }
+        return call;
     }
 
     public Call attend() throws InterruptedException {
         synchronized (this) {
-            while (standByQueue.isEmpty() && callQueue.isEmpty()) {
+            while (callQueue.isEmpty()) {
                 wait();
             }
-            callsInProgress.addAndGet(1);
-            if (standByQueue.isEmpty()) {
-                return callQueue.poll();
-            }
-            return standByQueue.poll();
         }
-    }
-
-    public int callSize() throws InterruptedException {
-        synchronized (this) {
-            return callQueue.size();
-        }
-    }
-
-    public int standBySize() throws InterruptedException {
-        synchronized (this) {
-            return standByQueue.size();
-        }
+            return callQueue.poll();
     }
 
     public AtomicInteger getCallsInProgress() {
