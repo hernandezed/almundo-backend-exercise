@@ -28,7 +28,7 @@ public class DispatchCallTask implements Runnable {
             logger.info("La llamada {} fue atendida por {}", call.getId(), employee.getName());
             call.setEmployee(employee);
             Thread.sleep(TimeUnit.SECONDS.toMillis(call.getDuration()));
-            logger.info("La llamada {} atendida por {} duró {}", call.getId(), employee.getName(), call.getDuration());
+            logger.info("La llamada {} atendida por {} duró {}s", call.getId(), employee.getName(), call.getDuration());
             callQueue.getCallsInProgress().decrementAndGet();
             employees.add(employee);
         } catch (InterruptedException ex) {
