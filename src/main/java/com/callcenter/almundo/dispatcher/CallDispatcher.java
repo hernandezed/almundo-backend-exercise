@@ -36,7 +36,7 @@ public class CallDispatcher {
         if (inProcessCalls.get() >= maxConcurrentCalls) {
             call.setStandBy(true);
         } else {
-            inProcessCalls.getAndUpdate(inProcessCalls -> inProcessCalls + 1);
+            inProcessCalls.getAndUpdate(actualInProcessCalls -> actualInProcessCalls + 1);
         }
         jmsMessagingTemplate.convertAndSend(callQueue, call);
     }
