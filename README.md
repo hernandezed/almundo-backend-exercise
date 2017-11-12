@@ -10,3 +10,7 @@ Existe un call center donde hay 3 tipos de empleados: operador, supervisor y dir
 * La clase Dispatcher debe tener la capacidad de poder procesar 10 llamadas al mismo tiempo (de modo concurrente).
 * Cada llamada puede durar un tiempo aleatorio entre 5 y 10 segundos.
 * Debe tener un test unitario donde lleguen 10 llamadas.
+
+Diagrama de clases
+
+![](https://raw.githubusercontent.com/hernandezed/almundo-backend-exercise/master/docs/callcenter.png)
