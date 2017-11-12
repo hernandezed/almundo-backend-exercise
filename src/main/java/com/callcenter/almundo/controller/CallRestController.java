@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/call")
+@RequestMapping("/api/calls")
 public class CallRestController {
 
     private final CallDispatcher dispatchCall;
-    private final List<Call> finalizeCalls;
+    private final List<Call> finishedCalls;
 
-    public CallRestController(CallDispatcher dispatchCall, List<Call> finalizeCalls) {
+    public CallRestController(CallDispatcher dispatchCall, List<Call> finishedCalls) {
         this.dispatchCall = dispatchCall;
-        this.finalizeCalls = finalizeCalls;
+        this.finishedCalls = finishedCalls;
     }
 
-    @GetMapping
-    public List<Call> getAll() {
-        return finalizeCalls;
+    @GetMapping("/finished")
+    public List<Call> getAllFinished() {
+        return finishedCalls;
     }
 
     @PostMapping

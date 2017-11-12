@@ -1,6 +1,7 @@
 package com.callcenter.almundo.controller;
 
 import com.callcenter.almundo.domain.Employee;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +19,8 @@ public class EmployeeRestController {
     }
 
     @PostMapping
-    public Employee save(@RequestBody Employee employee) {
-        employees.add(employee);
+    public List<Employee> save(@RequestBody List<Employee> employee) {
+        employees.addAll(employee);
         return employee;
     }
 
