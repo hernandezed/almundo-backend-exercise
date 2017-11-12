@@ -18,7 +18,7 @@ public class EmployeeRestController {
     }
 
     @PostMapping
-    public Employee employees(@RequestBody Employee employee) {
+    public Employee save(@RequestBody Employee employee) {
         employees.add(employee);
         return employee;
     }
