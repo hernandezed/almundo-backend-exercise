@@ -32,9 +32,13 @@ public class CallDispatcher {
         this.inProcessCalls = inProcessCalls;
     }
 
+    public void clean() {
+        inProcessCalls = new AtomicInteger();
+    }
+
     public void dispatchCall(Call call) {
         logger.info("Se recibio la llamada " + call.getId());
-        if (inProcessCalls.get() > maxConcurrentCalls) {
+        if (inProcessCalls.get() >= maxConcurrentCalls) {
             call.setStandBy(true);
         } else {
             inProcessCalls.getAndUpdate(n -> n + 1);

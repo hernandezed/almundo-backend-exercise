@@ -2,7 +2,7 @@ package com.callcenter.almundo.domain;
 
 import java.io.Serializable;
 
-public class Call implements Serializable{
+public class Call implements Serializable {
 
     private long id;
     private boolean standBy;
@@ -11,6 +11,9 @@ public class Call implements Serializable{
 
     public Call(long id) {
         this.id = id;
+    }
+
+    public Call() {
     }
 
     public long getId() {

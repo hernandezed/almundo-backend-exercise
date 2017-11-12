@@ -2,10 +2,12 @@ package com;
 
 import com.callcenter.almundo.comparator.EmployeePriorityComparator;
 import com.callcenter.almundo.domain.Employee;
+import java.util.Arrays;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.jms.Queue;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -36,4 +38,5 @@ public class CallcenterApplication {
     public BlockingQueue<Employee> employees() {
         return new PriorityBlockingQueue<>(initialQuantityEmployees, new EmployeePriorityComparator());
     }
+    private ActiveMQConnectionFactory connectionFactory;
 }
