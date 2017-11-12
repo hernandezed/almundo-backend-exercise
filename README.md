@@ -14,3 +14,24 @@ Existe un call center donde hay 3 tipos de empleados: operador, supervisor y dir
 Diagrama de clases
 
 ![](https://raw.githubusercontent.com/hernandezed/almundo-backend-exercise/activemq-impl/docs/callcenter.png)
+
+Uso:
+* La aplicacion al correrla, queda escuchando al puerto 8080.
+* Cargar empleados: Realizar un POST a http://localhost:8080/api/employees
+```
+[{"name":"Tomas", "priority":0},
+{"name":"Lucas", "priority":0},
+{"name":"Maria", "priority":0},
+{"name":"Rocio", "priority":0},
+{"name":"Juan", "priority":0},
+{"name":"Martin", "priority":0},
+{"name":"Patricia", "priority":1},
+{"name":"Monica", "priority":1},
+{"name":"Raul", "priority":1},
+{"name":"Ana", "priority":2}]
+```
+* Cargar llamada: Realizar un POST a http://localhost:8080/api/calls
+```
+{"id": idLlamada}
+```
+* Ver llamadas terminadas: Realizar un GET a http://localhost:8080/api/calls
