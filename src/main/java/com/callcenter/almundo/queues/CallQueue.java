@@ -27,12 +27,20 @@ public class CallQueue {
                 call.setStandBy(true);
             } else {
                 logger.debug("Se agrega la llamada {} en la cola principal", call.getId());
-                callsInProgress = new AtomicInteger(callsInProgress.addAndGet(1));
+                callsInProgress.updateAndGet(actualCallsInProgress -> actualCallsInProgress + 1);
             }
             callQueue.add(call);
             notifyAll();
         }
         return call;
+    }
+
+    public AtomicInteger getCallsInProgress() {
+        return callsInProgress;
+    }
+
+    public void setCallsInProgress(AtomicInteger callsInProgress) {
+        this.callsInProgress = callsInProgress;
     }
 
     public Call attend() throws InterruptedException {
@@ -41,11 +49,7 @@ public class CallQueue {
                 wait();
             }
         }
-            return callQueue.poll();
-    }
-
-    public AtomicInteger getCallsInProgress() {
-        return callsInProgress;
+        return callQueue.poll();
     }
 
 }

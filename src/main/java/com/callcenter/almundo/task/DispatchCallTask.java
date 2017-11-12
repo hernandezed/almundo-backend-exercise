@@ -29,8 +29,8 @@ public class DispatchCallTask implements Runnable {
             call.setEmployee(employee);
             Thread.sleep(TimeUnit.SECONDS.toMillis(call.getDuration()));
             logger.info("La llamada {} atendida por {} duró {}s", call.getId(), employee.getName(), call.getDuration());
-            callQueue.getCallsInProgress().decrementAndGet();
             employees.add(employee);
+            callQueue.getCallsInProgress().updateAndGet(actualCallsInProgress -> actualCallsInProgress - 1);
         } catch (InterruptedException ex) {
             logger.error("Hubo un error en la ejecución. Stacktrace", ex);
         }
