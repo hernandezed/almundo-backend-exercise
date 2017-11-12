@@ -34,4 +34,4 @@ Uso:
 ```
 {"id": idLlamada}
 ```
-* Ver llamadas terminadas: Realizar un GET a http://localhost:8080/api/calls
+* Ver llamadas terminadas: Realizar un GET a http://localhost:8080/api/calls/finished
