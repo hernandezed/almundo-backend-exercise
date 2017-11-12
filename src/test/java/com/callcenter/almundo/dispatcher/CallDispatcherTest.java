@@ -35,7 +35,7 @@ public class CallDispatcherTest extends CallCenterAbstractTest {
 
     @Before
     public void setUp() {
-        doNothing().when(jmsMessagingTemplate).convertAndSend(any(Queue.class), any(), anyMap());
+        doNothing().when(jmsMessagingTemplate).convertAndSend(any(Queue.class), any(Call.class));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class CallDispatcherTest extends CallCenterAbstractTest {
         Call call = new Call(1l);
         callDispatcher.dispatchCall(call);
         assertThat(call).hasFieldOrPropertyWithValue("standBy", false);
-        verify(jmsMessagingTemplate, times(1)).convertAndSend(any(Queue.class), any(), anyMap());
+        verify(jmsMessagingTemplate, times(1)).convertAndSend(any(Queue.class), any(Call.class));
     }
 
     @Test
@@ -56,6 +56,6 @@ public class CallDispatcherTest extends CallCenterAbstractTest {
             inProcessCalls.addAndGet(1);
         }
         assertThat(calls).extracting("standBy").last().isEqualTo(true);
-        verify(jmsMessagingTemplate, times(11)).convertAndSend(any(Queue.class), any(), anyMap());
+        verify(jmsMessagingTemplate, times(11)).convertAndSend(any(Queue.class), any(Call.class));
     }
 }

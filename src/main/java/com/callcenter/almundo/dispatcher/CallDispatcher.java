@@ -34,10 +34,11 @@ public class CallDispatcher {
 
     public void dispatchCall(Call call) {
         logger.info("Se recibio la llamada " + call.getId());
-        if (inProcessCalls.get() == maxConcurrentCalls) {
+        if (inProcessCalls.get() > maxConcurrentCalls) {
             call.setStandBy(true);
+        } else {
+            inProcessCalls.getAndUpdate(n -> n + 1);
         }
-        jmsMessagingTemplate.convertAndSend(callQueue, call, new HashMap<>());
-
+        jmsMessagingTemplate.convertAndSend(callQueue, call);
     }
 }
