@@ -3,7 +3,7 @@ package com.callcenter.almundo.domain;
 public class Call {
 
     private long id;
-    private boolean wasInStandBy;
+    private Boolean wasInStandBy;
     private int duration;
     private Employee employee;
 
@@ -19,12 +19,12 @@ public class Call {
         this.id = id;
     }
 
-    public boolean isWasInStandBy() {
+    public Boolean isWasInStandBy() {
         return wasInStandBy;
     }
 
-    public void setWasInStandBy(boolean wasInStandBy) {
-        this.wasInStandBy = wasInStandBy;
+    public void setWasInStandBy(Boolean isInStandBy) {
+        this.wasInStandBy = isInStandBy;
     }
 
     public int getDuration() {

@@ -27,6 +27,7 @@ public class CallQueue {
                 call.setWasInStandBy(true);
             } else {
                 logger.debug("Se agrega la llamada {} en la cola principal", call.getId());
+                call.setWasInStandBy(false);
                 callsInProgress.updateAndGet(actualCallsInProgress -> actualCallsInProgress + 1);
             }
             callQueue.add(call);
