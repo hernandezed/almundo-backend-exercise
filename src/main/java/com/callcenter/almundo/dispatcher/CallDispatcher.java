@@ -34,8 +34,9 @@ public class CallDispatcher {
     public void dispatchCall(Call call) {
         logger.info("Se recibio la llamada " + call.getId());
         if (inProcessCalls.get() >= maxConcurrentCalls) {
-            call.setStandBy(true);
+            call.setWasStandBy(true);
         } else {
+            call.setWasStandBy(false);
             inProcessCalls.getAndUpdate(actualInProcessCalls -> actualInProcessCalls + 1);
         }
         jmsMessagingTemplate.convertAndSend(callQueue, call);

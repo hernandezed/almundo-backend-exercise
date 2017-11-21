@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Call implements Serializable {
 
     private long id;
-    private boolean standBy;
+    private Boolean wasInStandBy;
     private int duration;
     private Employee employee;
 
@@ -24,12 +24,12 @@ public class Call implements Serializable {
         this.id = id;
     }
 
-    public boolean isStandBy() {
-        return standBy;
+    public Boolean getWasInStandBy() {
+        return wasInStandBy;
     }
 
-    public void setStandBy(boolean standBy) {
-        this.standBy = standBy;
+    public void setWasStandBy(Boolean isInStandBy) {
+        this.wasInStandBy = isInStandBy;
     }
 
     public int getDuration() {
@@ -66,7 +66,7 @@ public class Call implements Serializable {
 
     @Override
     public String toString() {
-        return "Call{" + "id=" + id + ", standBy=" + standBy + '}';
+        return "Call{" + "id=" + id + ", standBy=" + wasInStandBy + '}';
     }
 
 }

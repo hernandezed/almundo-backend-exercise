@@ -38,7 +38,7 @@ public class CallDispatcherTest extends CallCenterAbstractTest {
     public void dispatchCall_dispatchOneCallWithEmptyQueue_modifyCall() {
         Call call = new Call(1l);
         callDispatcher.dispatchCall(call);
-        assertThat(call).hasFieldOrPropertyWithValue("standBy", false);
+        assertThat(call).hasFieldOrPropertyWithValue("wasInStandBy", false);
         verify(jmsMessagingTemplate, times(1)).convertAndSend(any(Queue.class), any(Call.class));
     }
 
@@ -50,7 +50,7 @@ public class CallDispatcherTest extends CallCenterAbstractTest {
             calls.add(call);
             callDispatcher.dispatchCall(call);
         }
-        assertThat(calls).extracting("standBy").last().isEqualTo(true);
+        assertThat(calls).extracting("wasInStandBy").last().isEqualTo(true);
         verify(jmsMessagingTemplate, times(11)).convertAndSend(any(Queue.class), any(Call.class));
     }
 }

@@ -26,7 +26,7 @@ public class DispatchToEmployeeConsumerTest extends CallCenterAbstractTest {
     @Test
     public void dispatchToEmployee_withValidCall_modifyCall() throws InterruptedException {
         Call call = new Call(1);
-        call.setStandBy(false);
+        call.setWasStandBy(false);
         dispatchToEmployeeConsumer.dispatchToEmployee(call);
         assertThat(call).hasNoNullFieldsOrProperties();
     }
