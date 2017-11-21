@@ -24,7 +24,7 @@ public class CallQueue {
         synchronized (this) {
             if (callsInProgress.get() == maxCapacity) {
                 logger.debug("Se agrega la llamada {} en la cola de espera", call.getId());
-                call.setStandBy(true);
+                call.setWasInStandBy(true);
             } else {
                 logger.debug("Se agrega la llamada {} en la cola principal", call.getId());
                 callsInProgress.updateAndGet(actualCallsInProgress -> actualCallsInProgress + 1);

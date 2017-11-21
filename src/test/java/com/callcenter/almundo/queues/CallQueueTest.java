@@ -22,7 +22,7 @@ public class CallQueueTest {
         Call otherCall = new Call(2L);
         Call newCall = callQueue.add(otherCall);
 
-        assertThat(newCall).isEqualToIgnoringGivenFields(otherCall, "standBy").hasFieldOrPropertyWithValue("standBy", true);
+        assertThat(newCall).isEqualToIgnoringGivenFields(otherCall, "wasInStandBy").hasFieldOrPropertyWithValue("wasInStandBy", true);
     }
 
     @Test
@@ -44,6 +44,6 @@ public class CallQueueTest {
         callQueue.add(otherCall);
         callQueue.attend();
         Call newCall = callQueue.attend();
-        assertThat(newCall).isEqualToIgnoringGivenFields(otherCall, "standBy").hasFieldOrPropertyWithValue("standBy", true);
+        assertThat(newCall).isEqualToIgnoringGivenFields(otherCall, "wasInStandBy").hasFieldOrPropertyWithValue("wasInStandBy", true);
     }
 }

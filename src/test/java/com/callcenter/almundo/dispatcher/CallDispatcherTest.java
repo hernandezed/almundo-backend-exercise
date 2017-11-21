@@ -92,6 +92,6 @@ public class CallDispatcherTest {
         executorService.shutdown();
         executorService.awaitTermination(20, TimeUnit.SECONDS);
 
-        assertThat(calls).extracting("standBy").contains(true);
+        assertThat(calls).extracting("wasInStandBy").contains(true);
     }
 }
